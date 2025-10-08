@@ -5,10 +5,21 @@
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
           <div class="card shadow-lg">
             <div class="card-body p-4 p-md-5">
-              <h1 class="card-title text-center mb-2">GitLab Configuration</h1>
-              <p class="text-muted text-center mb-4">
-                Configure your GitLab connection to use the pipeline overview
-              </p>
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="flex-grow-1">
+                  <h1 class="card-title text-center mb-2">GitLab Configuration</h1>
+                  <p class="text-muted text-center mb-0">
+                    Configure your GitLab connection to use the pipeline overview
+                  </p>
+                </div>
+                <button
+                  class="btn btn-outline-secondary btn-sm ms-2"
+                  (click)="themeService.toggleDarkMode()"
+                  title="Toggle Dark Mode"
+                >
+                  <i [class]="darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+                </button>
+              </div>
 
               <!-- Error Alert -->
               <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -85,13 +96,13 @@
   </div>
 
   <!-- Footer -->
-  <footer class="footer-section py-3 text-center mt-auto">
+  <footer class="footer-section py-3 text-center mt-auto bg-body-secondary">
     <p class="text-muted mb-2">GitLab Pipeline Overview</p>
     <a
       href="https://github.com/r3s1st0r/"
       target="_blank"
       rel="noopener noreferrer"
-      class="text-decoration-none text-dark footer-link"
+      class="text-decoration-none text-body footer-link"
       title="GitHub Profile"
     >
       <i class="bi bi-github fs-4"></i>

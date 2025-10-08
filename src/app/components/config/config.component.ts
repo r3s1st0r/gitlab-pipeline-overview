@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { GitLabService } from '../../services/gitlab.service';
 import { StorageService } from '../../services/storage.service';
+import { ThemeService } from '../../services/theme.service';
 import { GitLabConfig } from '../../models/gitlab.models';
 import { forkJoin } from 'rxjs';
 
@@ -23,11 +24,13 @@ export class ConfigComponent {
 
   error: string | null = null;
   loading = false;
+  darkMode = false;
 
   constructor(
     private gitlabService: GitLabService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) {
     // Load saved configuration (without token)
     const savedConfig = this.storageService.getConfig();
@@ -35,6 +38,12 @@ export class ConfigComponent {
       this.config.apiUrl = savedConfig.apiUrl || this.config.apiUrl;
       this.config.rootGroupId = savedConfig.rootGroupId || '';
     }
+
+    // Subscribe to dark mode changes
+    this.darkMode = this.themeService.isDarkMode();
+    this.themeService.darkMode$.subscribe((isDark) => {
+      this.darkMode = isDark;
+    });
   }
 
   onSubmit(): void {

@@ -4,6 +4,13 @@
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 mb-0">GitLab Pipeline Overview</h1>
+        <button
+          class="btn btn-outline-secondary btn-sm"
+          (click)="themeService.toggleDarkMode()"
+          title="Toggle Dark Mode"
+        >
+          <i [class]="darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+        </button>
       </div>
 
       <div class="row g-3">
@@ -201,13 +208,13 @@
 </div>
 
 <!-- Footer -->
-<footer class="mt-5 py-4 text-center border-top bg-light">
+<footer class="mt-5 py-4 text-center border-top bg-body-secondary">
   <p class="text-muted mb-2">GitLab Pipeline Overview</p>
   <a
     href="https://github.com/r3s1st0r/"
     target="_blank"
     rel="noopener noreferrer"
-    class="text-decoration-none text-dark"
+    class="text-decoration-none text-body"
     title="GitHub Profile"
   >
     <i class="bi bi-github fs-4"></i>
@@ -261,7 +268,7 @@
           </div>
 
           <!-- No Pipeline -->
-          <span class="badge bg-light text-muted" *ngIf="!node.pipeline && !node.loading">
+          <span class="badge bg-secondary-subtle text-secondary" *ngIf="!node.pipeline && !node.loading">
             No Pipeline
           </span>
 

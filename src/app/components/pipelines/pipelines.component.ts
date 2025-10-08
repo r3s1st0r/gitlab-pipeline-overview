@@ -6,6 +6,7 @@ import { interval, Subscription } from 'rxjs';
 import { GitLabService } from '../../services/gitlab.service';
 import { HierarchyService } from '../../services/hierarchy.service';
 import { StorageService } from '../../services/storage.service';
+import { ThemeService } from '../../services/theme.service';
 import {
   GroupNode,
   TreeNode,
@@ -30,6 +31,7 @@ export class PipelinesComponent implements OnInit, OnDestroy {
   autoRefresh = false;
   refreshIntervalSeconds = 30;
   private refreshSubscription?: Subscription;
+  darkMode = false;
 
   // Filter & Suche
   filterOptions: FilterOptions = {
@@ -52,8 +54,14 @@ export class PipelinesComponent implements OnInit, OnDestroy {
     private gitlabService: GitLabService,
     private hierarchyService: HierarchyService,
     private storageService: StorageService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public themeService: ThemeService
+  ) {
+    this.darkMode = this.themeService.isDarkMode();
+    this.themeService.darkMode$.subscribe((isDark) => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit(): void {
     const config = this.gitlabService.getConfig();
