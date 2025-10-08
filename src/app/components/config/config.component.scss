@@ -1,0 +1,14 @@
+.bg-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+
+  .card-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+  }
+}
