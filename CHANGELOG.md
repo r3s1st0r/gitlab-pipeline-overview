@@ -2,8 +2,6 @@
 
 All notable changes to the GitLab Pipeline Overview project will be documented in this file.
 
-## [Unreleased]
-
 ## [0.2.0] - 2025-10-08
 
 ### Added
