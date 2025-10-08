@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { GitLabService } from '../../services/gitlab.service';
 import { StorageService } from '../../services/storage.service';
 import { GitLabConfig } from '../../models/gitlab.models';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-config',
@@ -19,6 +20,9 @@ export class ConfigComponent {
     privateToken: '',
     rootGroupId: '',
   };
+
+  error: string | null = null;
+  loading = false;
 
   constructor(
     private gitlabService: GitLabService,
@@ -35,15 +39,42 @@ export class ConfigComponent {
 
   onSubmit(): void {
     if (!this.config.apiUrl || !this.config.privateToken || !this.config.rootGroupId) {
-      alert('Please fill in all fields');
+      this.error = 'Please fill in all fields';
       return;
     }
 
-    // Set configuration
-    this.gitlabService.setConfig(this.config);
-    this.storageService.saveConfig(this.config);
+    this.error = null;
+    this.loading = true;
 
-    // Navigate to pipeline overview
-    this.router.navigate(['/pipelines']);
+    // Set configuration temporarily to test
+    this.gitlabService.setConfig(this.config);
+
+    const groupId = parseInt(this.config.rootGroupId, 10);
+
+    // Test API connection by fetching the group
+    forkJoin({
+      user: this.gitlabService.getCurrentUser(),
+      group: this.gitlabService.getGroup(groupId),
+    }).subscribe({
+      next: (result) => {
+        // Connection successful
+        this.storageService.saveConfig(this.config);
+        this.loading = false;
+        this.router.navigate(['/pipelines']);
+      },
+      error: (err) => {
+        this.loading = false;
+        if (err.status === 401) {
+          this.error = 'Invalid Private Token. Please check your token.';
+        } else if (err.status === 404) {
+          this.error = 'Group not found. Please check the Group ID.';
+        } else if (err.status === 403) {
+          this.error = 'Access denied. Please check your permissions.';
+        } else {
+          this.error = 'Connection failed: ' + (err.message || 'Unknown error');
+        }
+        console.error('API validation error:', err);
+      },
+    });
   }
 }

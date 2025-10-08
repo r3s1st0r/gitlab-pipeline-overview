@@ -1,74 +1,101 @@
-<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-gradient">
-  <div class="row w-100 justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-lg">
-        <div class="card-body p-4 p-md-5">
-          <h1 class="card-title text-center mb-2">GitLab Configuration</h1>
-          <p class="text-muted text-center mb-4">
-            Configure your GitLab connection to use the pipeline overview
-          </p>
+<div class="container-fluid min-vh-100 d-flex flex-column bg-gradient px-0">
+  <div class="flex-grow-1 d-flex align-items-center py-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-lg">
+            <div class="card-body p-4 p-md-5">
+              <h1 class="card-title text-center mb-2">GitLab Configuration</h1>
+              <p class="text-muted text-center mb-4">
+                Configure your GitLab connection to use the pipeline overview
+              </p>
 
-          <form (ngSubmit)="onSubmit()" #configForm="ngForm">
-            <div class="mb-3">
-              <label for="apiUrl" class="form-label">GitLab API URL</label>
-              <input
-                type="text"
-                class="form-control"
-                id="apiUrl"
-                name="apiUrl"
-                [(ngModel)]="config.apiUrl"
-                placeholder="https://gitlab.com"
-                required
-              />
-              <div class="form-text">
-                e.g., https://gitlab.com or https://gitlab.example.com
+              <!-- Error Alert -->
+              <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <strong>Error!</strong> {{ error }}
+                <button type="button" class="btn-close" (click)="error = null" aria-label="Close"></button>
               </div>
-            </div>
 
-            <div class="mb-3">
-              <label for="privateToken" class="form-label">Private Token</label>
-              <input
-                type="password"
-                class="form-control"
-                id="privateToken"
-                name="privateToken"
-                [(ngModel)]="config.privateToken"
-                placeholder="Your GitLab Private Token"
-                required
-              />
-              <div class="form-text">
-                Create a token under: Settings → Access Tokens (with 'api' and 'read_api' scopes)
-              </div>
-            </div>
+              <form (ngSubmit)="onSubmit()" #configForm="ngForm">
+                <div class="mb-3">
+                  <label for="apiUrl" class="form-label">GitLab API URL</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="apiUrl"
+                    name="apiUrl"
+                    [(ngModel)]="config.apiUrl"
+                    placeholder="https://gitlab.com"
+                    required
+                  />
+                  <div class="form-text">
+                    e.g., https://gitlab.com or https://gitlab.example.com
+                  </div>
+                </div>
 
-            <div class="mb-4">
-              <label for="rootGroupId" class="form-label">Root Group ID</label>
-              <input
-                type="text"
-                class="form-control"
-                id="rootGroupId"
-                name="rootGroupId"
-                [(ngModel)]="config.rootGroupId"
-                placeholder="12345"
-                required
-              />
-              <div class="form-text">
-                The ID of the main group (found in the group URL or group settings)
-              </div>
-            </div>
+                <div class="mb-3">
+                  <label for="privateToken" class="form-label">Private Token</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="privateToken"
+                    name="privateToken"
+                    [(ngModel)]="config.privateToken"
+                    placeholder="Your GitLab Private Token"
+                    required
+                  />
+                  <div class="form-text">
+                    Create a token under: Settings → Access Tokens (with 'api' and 'read_api' scopes)
+                  </div>
+                </div>
 
-            <div class="d-grid">
-              <button
-                type="submit"
-                class="btn btn-primary btn-lg"
-                [disabled]="!configForm.valid"
-              >
-                Connect
-              </button>
+                <div class="mb-4">
+                  <label for="rootGroupId" class="form-label">Root Group ID</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="rootGroupId"
+                    name="rootGroupId"
+                    [(ngModel)]="config.rootGroupId"
+                    placeholder="12345"
+                    required
+                  />
+                  <div class="form-text">
+                    The ID of the main group (found in the group URL or group settings)
+                  </div>
+                </div>
+
+                <div class="d-grid">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-lg"
+                    [disabled]="!configForm.valid || loading"
+                  >
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    {{ loading ? 'Connecting...' : 'Connect' }}
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="footer-section py-3 text-center mt-auto">
+    <p class="text-muted mb-2">GitLab Pipeline Overview</p>
+    <a
+      href="https://github.com/r3s1st0r/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-decoration-none text-dark footer-link"
+      title="GitHub Profile"
+    >
+      <i class="bi bi-github fs-4"></i>
+      <span class="ms-2">r3s1st0r</span>
+    </a>
+  </footer>
 </div>

@@ -354,23 +354,23 @@ export class PipelinesComponent implements OnInit, OnDestroy {
   }
 
   getStatusIcon(status?: string): string {
-    if (!status) return '❓';
+    if (!status) return 'bi-question-circle';
 
     const iconMap: { [key: string]: string } = {
-      success: '✅',
-      failed: '❌',
-      running: '🔄',
-      pending: '⏳',
-      canceled: '🚫',
-      skipped: '⏭️',
-      manual: '✋',
-      created: '🆕',
-      waiting_for_resource: '⏳',
-      preparing: '🔧',
-      scheduled: '📅',
+      success: 'bi-check-circle-fill',
+      failed: 'bi-x-circle-fill',
+      running: 'bi-arrow-repeat',
+      pending: 'bi-hourglass-split',
+      canceled: 'bi-dash-circle-fill',
+      skipped: 'bi-skip-forward-fill',
+      manual: 'bi-hand-index',
+      created: 'bi-plus-circle',
+      waiting_for_resource: 'bi-hourglass',
+      preparing: 'bi-tools',
+      scheduled: 'bi-calendar-check',
     };
 
-    return iconMap[status] || '❓';
+    return iconMap[status] || 'bi-question-circle';
   }
 
   isGroupNode(node: TreeNode): node is GroupNode {

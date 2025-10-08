@@ -42,6 +42,16 @@ export class GitLabService {
   }
 
   /**
+   * Get current authenticated user
+   */
+  getCurrentUser(): Observable<any> {
+    return this.http.get<any>(
+      this.getApiUrl('/user'),
+      { headers: this.getHeaders() }
+    );
+  }
+
+  /**
    * Gruppe abrufen zum Testen der Verbindung
    */
   getGroup(groupId: number): Observable<GitLabGroup> {
