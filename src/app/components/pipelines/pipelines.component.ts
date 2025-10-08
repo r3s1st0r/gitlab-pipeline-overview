@@ -213,10 +213,15 @@ export class PipelinesComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.filteredHierarchy = this.filterNode(this.hierarchy);
+    const filtered = this.filterNode(this.hierarchy);
+    // Root group should always be visible, even if empty after filtering
+    this.filteredHierarchy = filtered || {
+      ...this.hierarchy,
+      children: []
+    };
   }
 
-  private filterNode(node: GroupNode): GroupNode {
+  private filterNode(node: GroupNode): GroupNode | null {
     const filteredChildren = node.children
       .map((child) => {
         if (child.type === 'group') {
@@ -226,6 +231,11 @@ export class PipelinesComponent implements OnInit, OnDestroy {
         }
       })
       .filter((child) => child !== null) as TreeNode[];
+
+    // Hide groups with no children after filtering
+    if (filteredChildren.length === 0) {
+      return null;
+    }
 
     return {
       ...node,
