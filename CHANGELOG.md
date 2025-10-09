@@ -2,6 +2,18 @@
 
 All notable changes to the GitLab Pipeline Overview project will be documented in this file.
 
+## [0.3.0] - 2025-10-08
+
+### Added
+- **Docker Support**
+  - Multi-stage Dockerfile for production builds
+  - Nginx configuration for serving Angular SPA
+  - Docker Compose setup for easy deployment
+  - .dockerignore for optimized build context
+  - Comprehensive Docker documentation in README
+  - Health checks for container monitoring
+  - Alpine-based images for minimal footprint (~50MB)
+
 ## [0.2.0] - 2025-10-08
 
 ### Added

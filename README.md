@@ -39,6 +39,50 @@ npm start
 
 5. Open browser: `http://localhost:4200`
 
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+1. Build and start the container:
+```bash
+docker-compose up -d
+```
+
+2. Open browser: `http://localhost:9001`
+
+3. Stop the container:
+```bash
+docker-compose down
+```
+
+### Using Docker directly
+
+1. Build the image:
+```bash
+docker build -t gitlab-pipeline-overview .
+```
+
+2. Run the container:
+```bash
+docker run -d -p 9001:80 --name gitlab-pipeline-overview gitlab-pipeline-overview
+```
+
+3. Open browser: `http://localhost:9001`
+
+4. Stop and remove the container:
+```bash
+docker stop gitlab-pipeline-overview
+docker rm gitlab-pipeline-overview
+```
+
+### Docker Image Details
+
+- **Multi-stage build**: Uses Node.js for building and nginx for serving
+- **Production optimized**: Minified assets, gzip compression
+- **Lightweight**: Alpine-based images (~50MB)
+- **Health checks**: Automatic container health monitoring
+- **Port**: Exposes port 80 (mapped to 9001 on host)
+
 ## Configuration
 
 ### Creating a GitLab Private Token
